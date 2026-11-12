@@ -27,52 +27,88 @@ Cách đổi cờ một điểm trên CVAT 2.74.1 (theo hướng dẫn bài lab)
 
 ## 2. Số lượng đã gán và thời gian (CP1, CP2)
 
-| Nhóm ảnh | Số ảnh | Số skeleton đã gán | Số người dưới 60 px (không gán) | Số poster / gương / màn hình bỏ qua | Thời gian (phút) |
-|---|---:|---:|---:|---:|---:|
-| `easy` | 5 |  |  |  |  |
-| `occluded` | 3 |  | |   |
-| `back` | 2 | |  |  |  |
-| `small` | 1 | |  |  |  |
-| `crowd` | 1 |  |  |  |  |
-| `faces` | 8 | **8** | — |  |  |
+| Nội dung | Person | Face | Tổng |
+|---|---:|---:|---:|
+| Số ảnh đã gán | 12 | 8 | **20** |
+| Số skeleton | 18 | 8 | **26** |
+| Keypoint mỗi skeleton | 17 | 13 | — |
+| Số giá trị mỗi annotation | 51 | 39 | — |
+| Tổng keypoint | 306 | 104 | **410** |
+| Keypoint `v=2` | 225 | 95 | **320** |
+| Keypoint `v=1` | 61 | 9 | **70** |
+| Keypoint `v=0` | 20 | 0 | **20** |
+| `num_keypoints` trung bình | 15.9 | 13.0 | — |
 
-**Tổng kiểm chứng từ hai file export:** 12 ảnh người với **18 skeleton `person`** và 8 ảnh mặt với **8 skeleton `face`**. Không thể xác định ảnh thuộc nhóm `easy/occluded/back/small/crowd` chỉ từ tên file COCO trong export; cần `assignment.json` hoặc bảng phân nhóm của lab để điền chính xác.
+**Kết quả CP1 — Person:** Hoàn thành 12 ảnh COCO val2017, tổng cộng 18 skeleton `person` (17 keypoint/skeleton), trung bình 1,5 skeleton/ảnh. Có 225 điểm `v=2`, 61 điểm `v=1` và 20 điểm `v=0`.
 
-- Số ảnh người đã xong ở mốc phút 105: ** / 10**.
-- Thời gian thực tế (phút): CP1 **** · CP2 **** · CP3 ****.
-- Ảnh tốn thời gian nhất và lý do: ****.
+**Kết quả CP2 — Face:** Hoàn thành 8 ảnh mặt, tổng cộng 8 skeleton `face` (13 keypoint/skeleton), trung bình 1 skeleton/ảnh. Có 95 điểm `v=2`, 9 điểm `v=1` và 0 điểm `v=0`.
+
+**Số skeleton theo ảnh Person:**
+
+| Ảnh | Skeleton | Ảnh | Skeleton |
+|---|---:|---|---:|
+| `000000091637` | 2 | `000000156069` | 1 |
+| `000000162046` | 1 | `000000213933` | 1 |
+| `000000241837` | 1 | `000000253584` | 1 |
+| `000000294329` | 1 | `000000311300` | 2 |
+| `000000381889` | 3 | `000000391222` | 2 |
+| `000000516902` | 1 | `000000571665` | 2 |
+
+**Số skeleton theo ảnh Face:** `face_137371=1`, `face_145751=1`, `face_264124=1`, `face_301643=1`, `face_3348=1`, `face_345145=1`, `face_490361=1`, `face_575921=1`.
+
+**Thông tin chưa thể suy ra từ kết quả checker:** số skeleton theo nhóm `easy/occluded/back/small/crowd` (cần đối chiếu `assignment.json`); số người dưới 60 px không gán; số poster/gương/màn hình bỏ qua; số ảnh hoàn thành ở phút 105; thời gian làm thực tế theo CP1/CP2/CP3; ảnh thực tế tốn thời gian nhất.
 
 ## 3. Bảng ca khó (CP1, CP2)
 
-Bảng sau để ghi các quyết định thực tế; không suy diễn cờ hoặc lý do từ dữ liệu JSON nếu không có ảnh đối chiếu.
+Kết quả kiểm tra ghi nhận **90 keypoint có `v=1` hoặc `v=0`** trên cả hai nhóm, trong tổng số 410 keypoint. Đây là thống kê trạng thái visibility, **không phải số ca phân vân được ghi lại trong lúc gán**.
 
-| Ảnh | Người / mặt | Điểm | Cờ đã chọn | Phân vân giữa | Lý do chọn |
-|---|---|---|---:|---|---|
-| |  |  |  | `v=1` / `v=0`  |
+| Đối tượng | Cờ | Số keypoint | Tỷ lệ trong nhóm (làm tròn theo checker) | Ý nghĩa |
+|---|---|---:|---:|---|
+| Person | `v=2` | 225 | 74% | Quan sát được |
+| Person | `v=1` | 61 | 20% | Bị che nhưng định vị được |
+| Person | `v=0` | 20 | 7% | Ngoài ảnh hoặc không định vị được |
+| Face | `v=2` | 95 | 91% | Quan sát được |
+| Face | `v=1` | 9 | 9% | Bị che nhưng định vị được |
+| Face | `v=0` | 0 | 0% | Không xuất hiện trong export |
 
-
+- Person có **81/306** điểm `v=1` hoặc `v=0` (khoảng **26,5%**).
+- Face có **9/104** điểm `v=1` (khoảng **8,7%**), không có điểm `v=0`.
+- Chưa có dữ liệu chỉ ra **ảnh, người/mặt, keypoint cụ thể, hai phương án phân vân và lý do chọn**. Không thể điền bảng ca khó theo từng trường hợp nếu chỉ có bản tóm tắt checker.
 
 ## 4. Bảng tự review (CP3)
 
+### 4.1. Kết quả kiểm tra dữ liệu xuất
 
-| Ảnh | Người / mặt | Điểm | Mã lỗi | Ghi chú | Đã sửa? |
-|---|---|---|---|---|---|
-|  | person |  |  |  |  |
-|  | person |  |  |  |  |
-|  | person |  |  |  |  |
-|  | person |  |  |  |  |
-|  | person |  |  |  |  |
-|  | face |  |  |  |  |
-|  | face |  |  |  |  |
-| | face |  |  | |  |
+| Hạng mục | Person | Face |
+|---|---:|---:|
+| Số ảnh | 12 | 8 |
+| Số skeleton | 18 | 8 |
+| Số giá trị/annotation | 51 | 39 |
+| `num_keypoints` trung bình | 15.9 | 13.0 |
+| `v=2` | 225 | 95 |
+| `v=1` | 61 | 9 |
+| `v=0` | 20 | 0 |
 
-Mã hợp lệ: `lr_swap`, `vis_flag`, `position`, `missing`, `extra`, `ok`.
+### 4.2. Tổng hợp kết quả checker
 
-| `lr_swap` | `vis_flag` | `position` | `missing` | `extra` | `ok` |
-|---:|---:|---:|---:|---:|---:|
-| | |  | |  |  |
+| Chỉ tiêu | Kết quả |
+|---|---|
+| Tổng số ảnh | **20** |
+| Tổng số skeleton | **26** |
+| Tổng số keypoint | **410** |
+| Số `[LỖI]` | **0** |
+| Số `[CẢNH BÁO]` | **1** |
+| Kết quả `check_submission.py` | **ĐẠT** |
 
-Điểm còn phân vân giữa `v=1` và `v=0`: 
+### 4.3. Cảnh báo được ghi nhận
+
+Có **20 điểm `person` mang `v=0` nhưng vẫn giữ tọa độ cũ**, thay vì `(0, 0)` theo quy ước COCO thông thường. Theo thông báo của `check_submission.py`, đây **không phải lỗi chặn nộp**: điểm `v=0` bị bỏ qua trong huấn luyện và chấm của bài lab. Khi xử lý dữ liệu, cần dựa vào cờ visibility, không chỉ vào tọa độ.
+
+### 4.4. Kết luận và giới hạn của tự review
+
+Dữ liệu xuất có đúng số lượng giá trị mỗi annotation (Person 51; Face 39). Chương trình kiểm tra trả về **0 lỗi, 1 cảnh báo, kết quả ĐẠT**.
+
+**Chưa thể xác nhận từ checker** số ảnh thực sự đã review theo yêu cầu CP3 (5 ảnh người, trong đó ít nhất 2 ảnh `back/crowd`, và 3 ảnh mặt), mã lỗi `lr_swap`, `vis_flag`, `position`, `missing`, `extra`, `ok`, hoặc số lỗi đã sửa. Kết quả checker không thay thế review trực quan vị trí keypoint và nhãn trái/phải.
 
 ## 5. Kiểm file xuất và kết quả tự kiểm (CP4)
 
@@ -137,7 +173,7 @@ Kết quả: ĐẠT (đọc lại từng cảnh báo ở trên)
 
 4. Một đoạn JSON xuất của một người:
 
-   [JSON export](images/4_json_export.png)
+   [JSON export](("...\report\individual\PersonJson.png"))
 
 
 
