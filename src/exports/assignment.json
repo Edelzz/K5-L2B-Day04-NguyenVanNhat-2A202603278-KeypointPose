@@ -1,0 +1,43 @@
+{
+ "mssv": "2A202603278",
+ "ten": "NguyenVanNhat",
+ "pool_version": "d04-k5-v2",
+ "cvat_user": "Edelz",
+ "project": "d04-keypoint",
+ "persons": [
+  "000000156069.jpg",
+  "000000162046.jpg",
+  "000000213933.jpg",
+  "000000241837.jpg",
+  "000000294329.jpg",
+  "000000091637.jpg",
+  "000000516902.jpg",
+  "000000571665.jpg",
+  "000000311300.jpg",
+  "000000391222.jpg",
+  "000000253584.jpg",
+  "000000381889.jpg"
+ ],
+ "faces": [
+  "face_145751.jpg",
+  "face_3348.jpg",
+  "face_575921.jpg",
+  "face_137371.jpg",
+  "face_264124.jpg",
+  "face_345145.jpg",
+  "face_301643.jpg",
+  "face_490361.jpg"
+ ],
+ "tasks": {
+  "persons": {
+   "task_id": 5,
+   "job_id": 5,
+   "task_name": "persons-NguyenVanNhat"
+  },
+  "faces": {
+   "task_id": 6,
+   "job_id": 6,
+   "task_name": "faces-NguyenVanNhat"
+  }
+ }
+}
